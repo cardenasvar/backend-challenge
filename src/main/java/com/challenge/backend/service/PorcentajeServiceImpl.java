@@ -28,6 +28,12 @@ public class PorcentajeServiceImpl implements PorcentajeService {
     @Value("${app.external-service.porcentaje-url}")
     private String externalServiceUrl;
 
+    @Value("${spring.cache.redis.cachePorcentaje}")
+    private String cachePorcentaje;
+
+    @Value("${spring.cache.redis.time-to-live}")
+    private long ttlCachePorcentaje;
+
     private final RestTemplate restTemplate;
     private final RedisTemplate<String, BigDecimal> redisTemplate;
 
@@ -79,7 +85,7 @@ public class PorcentajeServiceImpl implements PorcentajeService {
 
     private void guardarPorcentajeEnCache(BigDecimal porcentaje) {
         try {
-            redisTemplate.opsForValue().set("porcentajeCache", porcentaje, Duration.ofMinutes(30));
+            redisTemplate.opsForValue().set(cachePorcentaje, porcentaje, Duration.ofMillis(ttlCachePorcentaje));
             log.info("Porcentaje guardado en cache: {}", porcentaje);
         } catch (Exception e) {
             log.warn("Error guardando porcentaje en cache: {}", e.getMessage());
@@ -89,7 +95,7 @@ public class PorcentajeServiceImpl implements PorcentajeService {
     private Optional<BigDecimal> obtenerPorcentajeEnCache() {
         try {
             log.info("Obteniendo porcentaje desde cache");
-            BigDecimal porcentaje = redisTemplate.opsForValue().get("porcentajeCache");
+            BigDecimal porcentaje = redisTemplate.opsForValue().get(cachePorcentaje);
             log.info("Porcentaje obtenido en cache: {}", porcentaje);
             return Optional.ofNullable(porcentaje);
         } catch (Exception e) {

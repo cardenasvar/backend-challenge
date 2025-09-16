@@ -47,7 +47,7 @@ class PorcentajeServiceSpec extends Specification {
         def resultado = porcentajeService.obtenerPorcentaje()
 
         then: "La respuesta es OK y el resultado correcto"
-        valueOperations.get("porcentajeCache") >> BigDecimal.valueOf(12)
+        valueOperations.get(_) >> BigDecimal.valueOf(12)
 
         and: "Se retorna el valor del caché"
         resultado == 12
@@ -62,7 +62,7 @@ class PorcentajeServiceSpec extends Specification {
         def resultado = porcentajeService.obtenerPorcentaje()
 
         then: "Se consulta la caché"
-        valueOperations.get("porcentajeCache") >> BigDecimal.valueOf(8)
+        valueOperations.get(_) >> BigDecimal.valueOf(8)
 
         and: "Se retorna el valor del caché"
         resultado == 8
@@ -77,7 +77,7 @@ class PorcentajeServiceSpec extends Specification {
         def resultado = porcentajeService.obtenerPorcentaje()
 
         then: "Se consulta la caché"
-        valueOperations.get("porcentajeCache") >> BigDecimal.valueOf(8)
+        valueOperations.get(_) >> BigDecimal.valueOf(8)
 
         and: "Se retorna el valor del caché"
         resultado == 8

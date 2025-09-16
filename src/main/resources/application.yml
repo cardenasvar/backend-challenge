@@ -29,6 +29,7 @@ spring:
     type: redis
     redis:
       time-to-live: 1800000 # 30 minutos
+      cachePorcentaje: "porcentajeCache"
 
 server:
   servlet:
