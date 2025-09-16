@@ -3,17 +3,17 @@
 
 API RESTful para cálculo financiero con porcentaje dinámico.
 
-Características:
+**Características:**
 * Cálculo con porcentaje dinámico: suma de dos números con porcentaje obtenido de servicio externo
 * Caché Redis: almacenamiento de porcentaje por 30 minutos con fallback
 * Historial asincrono: registro de todas las operaciones en PostgreSQL
 
-Requisitos:
+**Requisitos:**
 * Java 21
 * Docker y Docker Compose 
 * Gradle 8.6+
 
-Tecnologías:
+**Tecnologías:**
 * Springboot 3.5.5
 * Base de datos PostreSql para historial
 * Redis: caché distribuida
@@ -22,17 +22,33 @@ Tecnologías:
 
 ## Instalación y ejecución de la aplicación ##
 
-Descargar la aplicación:
+### Opción 1: Usar imagen pre-construida (recomendado para pruebas rápidas)
+**Clonar el repositorio:**
 * git clone https://github.com/cardenasvar/backend-challenge.git
+* cd backend-challenge/docker
 
-Construir la aplicación:
-* **gradlew clean build**
+**Ejecutar Docker compose**
+* docker compose up -d
 
-Ejecutar Docker compose
+La aplicación estará disponible en: http://localhost:8080
+
+### Opción 2: Desarrollo local (build desde código fuente)
+**Clonar el repositorio:**
+* git clone https://github.com/cardenasvar/backend-challenge.git
+* cd backend-challenge
+
+**Construir la aplicación:**
+* gradlew clean build
+
+**Ejecutar Docker compose**
 * **docker compose up -d**
 
-Ejecutar test:
+### Opción 3: Solo infraestrutura (db + redis)
+* docker compose up -d db redis
+
+### Ejecutar test:
 * **gradlew test**
+* **gradlew build jacocoTestReport**
 
 ***
 
