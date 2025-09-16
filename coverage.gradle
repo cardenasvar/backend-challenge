@@ -1,3 +1,15 @@
+def jacocoExcludes = [
+        '**/*$*',
+        '**/*Spec.class',
+        'com/challenge/backend/BackendApplication**',
+        'com/challenge/backend/repository/**',
+        'com/challenge/backend/repository/datastore/**',
+        'com/challenge/backend/exception/**',
+        'com/challenge/backend/aspect/**',
+        'com/challenge/backend/configuration/**',
+        'com/challenge/backend/controller/dto/**'
+]
+
 jacocoTestReport {
     dependsOn test
 
@@ -9,22 +21,19 @@ jacocoTestReport {
 
     afterEvaluate {
         classDirectories.setFrom(files(classDirectories.files.collect {
-            fileTree(dir: it, excludes: [
-                    '**/*$*',
-                    '**/*Spec.class',
-                    'com/challenge/backend/BackendApplication**',
-                    'com/challenge/backend/repository/**',
-                    'com/challenge/backend/repository/datastore/**',
-                    'com/challenge/backend/exception/**',
-                    'com/challenge/backend/aspect/**',
-                    'com/challenge/backend/configuration/**'
-            ])
+            fileTree(dir: it, excludes: jacocoExcludes)
         }))
     }
 }
 
 jacocoTestCoverageVerification {
     dependsOn jacocoTestReport
+
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, excludes: jacocoExcludes)
+        }))
+    }
 
     violationRules {
         rule {
