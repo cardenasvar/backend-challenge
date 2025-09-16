@@ -1,0 +1,144 @@
+{
+	"info": {
+		"_postman_id": "78466e82-7cfb-48b3-94b0-b835dd3ac295",
+		"name": "backend-challenge",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6340053"
+	},
+	"item": [
+		{
+			"name": "calculadora",
+			"item": [
+				{
+					"name": "calculo-porcentaje",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"num1\": 19990,\r\n    \"num2\": 5000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/operaciones-y-ejecucion/operaciones-de-mercado/v1/calculadora/calculo-porcentaje",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"operaciones-y-ejecucion",
+								"operaciones-de-mercado",
+								"v1",
+								"calculadora",
+								"calculo-porcentaje"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "historial-solicitud",
+			"item": [
+				{
+					"name": "historial",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"num1\": 15.0,\r\n    \"num2\": 15.0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/operaciones-y-ejecucion/operaciones-de-mercado/v1/historial-solicitud?page=0&size=10&sortBy=timestamp&sortDirection=asc",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"operaciones-y-ejecucion",
+								"operaciones-de-mercado",
+								"v1",
+								"historial-solicitud"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								},
+								{
+									"key": "sortBy",
+									"value": "timestamp"
+								},
+								{
+									"key": "sortDirection",
+									"value": "asc"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "servicio-externo",
+			"item": [
+				{
+					"name": "porcentaje",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://68c4a5da81ff90c8e61cbb25.mockapi.io/api/v1/porcentaje/porcentaje",
+							"protocol": "https",
+							"host": [
+								"68c4a5da81ff90c8e61cbb25",
+								"mockapi",
+								"io"
+							],
+							"path": [
+								"api",
+								"v1",
+								"porcentaje",
+								"porcentaje"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
