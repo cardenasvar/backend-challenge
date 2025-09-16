@@ -1,0 +1,38 @@
+jacocoTestReport {
+    dependsOn test
+
+    reports {
+        xml.required = true
+        html.required = true
+        csv.required = false
+    }
+
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, excludes: [
+                    '**/*$*',
+                    '**/*Spec.class',
+                    'com/challenge/backend/BackendApplication**',
+                    'com/challenge/backend/repository/**',
+                    'com/challenge/backend/repository/datastore/**',
+                    'com/challenge/backend/exception/**',
+                    'com/challenge/backend/aspect/**',
+                    'com/challenge/backend/configuration/**'
+            ])
+        }))
+    }
+}
+
+jacocoTestCoverageVerification {
+    dependsOn jacocoTestReport
+
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.85
+            }
+        }
+    }
+}
+
+check.dependsOn jacocoTestCoverageVerification

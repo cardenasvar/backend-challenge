@@ -1,0 +1,56 @@
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui-html
+    enabled: true
+
+info:
+  app:
+    name: Backend Challenge
+    descripcion: API para cálculo financiero con porcentaje dinámico
+    version: 1.0.0
+
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/challenge}
+    username: ${SPRING_DATASOURCE_USERNAME:adm}
+    password: ${SPRING_DATASOURCE_PASSWORD:1234}
+  jpa:
+    hibernate:
+      # ddl-auto: create-drop
+      ddl-auto: none
+    show-sql: true
+  data:
+    redis:
+      host: ${SPRING_DATASOURCE_REDIS_HOST:localhost}
+      port: ${SPRING_DATASOURCE_REDIS_PORT:6379}
+  cache:
+    type: redis
+    redis:
+      time-to-live: 1800000 # 30 minutos
+
+server:
+  servlet:
+    context-path: ${CONTEXT_PATH:/operaciones-y-ejecucion/operaciones-de-mercado/local}
+  shutdown: graceful
+
+app:
+  external-service:
+    porcentaje-url: https://68c4a5da81ff90c8e61cbb25.mockapi.io/api/v1/porcentaje/porcentaje
+
+logging:
+  level:
+    com.challenge: DEBUG
+    org.springframework.cache: TRACE
+
+management:
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
