@@ -28,4 +28,9 @@ public class CalculoRequestDto {
     @DecimalMin(value = "0.0", inclusive = false, message = "El campo 'num2' debe ser mayor que 0")
     private BigDecimal num2;
 
+    @Override
+    public String toString() {
+        return String.format("{\"num1\":%s, \"num2\":%s}", num1, num2);
+    }
+
 }

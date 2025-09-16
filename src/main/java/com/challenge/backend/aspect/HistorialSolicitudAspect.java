@@ -1,6 +1,8 @@
 package com.challenge.backend.aspect;
 
 import com.challenge.backend.service.HistorialSolicitudService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
@@ -9,6 +11,7 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -26,6 +29,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 public class HistorialSolicitudAspect {
 
     private final HistorialSolicitudService historialSolicitudService;
+    private final ObjectMapper objectMapper;
 
     @AfterReturning(
             pointcut = "execution(* com.challenge.backend.controller.CalculadoraController.calcularPorcentaje(..))",
@@ -34,7 +38,7 @@ public class HistorialSolicitudAspect {
         historialSolicitudService.registrar(
                 obtenerEndpointActual(),
                 obtenerParametrosSolicitud(joinPoint),
-                resultado != null ? resultado.toString() : null,
+                formatearRespuesta(resultado),
                 null);
     }
 
@@ -54,13 +58,34 @@ public class HistorialSolicitudAspect {
         return attributes.getRequest().getRequestURI();
     }
 
+    private String formatearRespuesta(Object resultado) {
+        if (resultado == null) {
+            return null;
+        }
+
+        try {
+            Object body = resultado;
+            if (resultado instanceof ResponseEntity<?> responseEntity) {
+                body = responseEntity.getBody();
+            }
+
+            if (body != null) {
+                return objectMapper.writeValueAsString(body);
+            }
+            return "{}";
+        } catch (JsonProcessingException e) {
+            log.warn("Error al formatear respuesta: {}", e.getMessage());
+            return resultado.toString();
+        }
+    }
+
     private String obtenerParametrosSolicitud(JoinPoint joinPoint) {
         StringBuilder params = new StringBuilder();
         Object[] args = joinPoint.getArgs();
 
         for (Object arg : args) {
             if (arg != null && !isHttpObject(arg)) {
-                params.append(arg).append(";");
+                params.append(arg);
             }
         }
         return !params.isEmpty() ? params.toString() : "";

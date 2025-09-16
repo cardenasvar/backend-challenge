@@ -40,7 +40,8 @@ public class CalculadoraController {
                     @ApiResponse(responseCode = "200", description = "Cálculo exitoso"),
                     @ApiResponse(responseCode = "400",
                             description = "Ocurrió un error de cliente, verifique su request"),
-                    @ApiResponse(responseCode = "500", description = "Ocurrió un error interno al realizar cálculo")
+                    @ApiResponse(responseCode = "500", description = "Ocurrió un error interno al realizar cálculo"),
+                    @ApiResponse(responseCode = "503", description = "Servicio externo no disponible")
             }
     )
     @PostMapping("/calculo-porcentaje")
